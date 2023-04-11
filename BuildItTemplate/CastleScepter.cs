@@ -22,11 +22,12 @@ namespace CastleScepter
         public const string PluginName = "CastleScepter";
         public const string PluginVersion = "1.0.0";
         public AssetBundle assetBundle;
-        public static CustomLocalization Localization = LocalizationManager.Instance.GetLocalization();
+        private CustomLocalization Localization;
 
         private void Awake()
         {
             assetBundle = AssetUtils.LoadAssetBundleFromResources("scepter", Assembly.GetExecutingAssembly());
+            AddLocalizations();
             PrefabManager.OnVanillaPrefabsAvailable += SetupAssets;
             Jotunn.Logger.LogInfo("CastleScepter has landed");
         }
@@ -56,7 +57,7 @@ namespace CastleScepter
             var tool = new CustomItem(toolFab, false,
                 new ItemConfig
                 {
-                    Name = "$item_rkcscepter",
+                    Name = "$item_rkc_scepter",
                     Description = "Build it castle style with the Scepter of Power!",
                     Amount = 1,
                     Enabled = true,
@@ -68,6 +69,13 @@ namespace CastleScepter
                 });
 
             ItemManager.Instance.AddItem(tool);
+        }
+        private void AddLocalizations()
+        {
+            Localization = LocalizationManager.Instance.GetLocalization();
+            Localization.AddTranslation("English", new Dictionary<string, string>
+            { {"item_rkc_scepter", "Scepter of Power"}
+            });
         }
     }
 }        
